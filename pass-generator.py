@@ -1,28 +1,69 @@
-import random  # Importing the random module
-import string  # Importing the string module
+# This program is contributed by Gaurav Mandal 
 
-print(string.printable) # Printing all the printable characters
-char_seq = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&'()*+,-./:;<=>?@[\]^_`{|}~"  # Defining the character sequence
-print(type(char_seq))   # Printing the type of the character sequence
 
-print("Enter the required length of the password ranging from 8 to 16: ") # Getting the length of the password from the user
-length = int(input())   # Converting the input to integer
+import random
+import string
 
-if length >= 8 and length <= 16:  # Checking if the length is in the range
-    password = ''       # Defining the password variable
-    for len in range(length):     # Looping through the length
-        random_char = random.choice(char_seq) # Getting a random character from the character sequence
-        password += random_char   # Adding the random character to the password
-        
-    # print(password)   # Printing the password
-    list_pass = list(password)    # Converting the password to a list
-    random.shuffle(list_pass)     # Shuffling the list
-    final_password = ''.join(list_pass)       # Converting the list to a string
-    print(final_password)         # Printing the final password
-else:
-    print("Enter a suitable range")           # Printing an error message
+def generate_password(length=12, use_lowercase=True, use_uppercase=True, use_digits=True, use_special_chars=True, use_salt=False, memorable=False):
+    lowercase_chars = string.ascii_lowercase
+    uppercase_chars = string.ascii_uppercase
+    digit_chars = string.digits
+    special_chars = string.punctuation
 
-    from password_generator import \
-        PasswordGenerator  # Importing the PasswordGenerator class from the password_generator module
-    pwo = PasswordGenerator()     # Creating an object of the PasswordGenerator class
-    pwo.generate()                # Calling the generate method of the PasswordGenerator class
+    # Create a character set based on options
+    character_set = ""
+    if use_lowercase:
+        character_set += lowercase_chars
+    if use_uppercase:
+        character_set += uppercase_chars
+    if use_digits:
+        character_set += digit_chars
+    if use_special_chars:
+        character_set += special_chars
+
+    if not (use_lowercase or use_uppercase or use_digits or use_special_chars):
+        raise ValueError("At least one character set (lowercase, uppercase, digits, special chars) must be selected.")
+
+    # Generate a memorable password
+    if memorable:
+        memorable_password = ""
+        vowels = "aeiou"
+        consonants = "".join(set(lowercase_chars) - set(vowels))
+
+        for _ in range(length):
+            if _ % 2 == 0:
+                memorable_password += random.choice(consonants)
+            else:
+                memorable_password += random.choice(vowels)
+
+        if use_uppercase:
+            memorable_password = memorable_password.capitalize()
+
+        return memorable_password
+
+    # Generate a random password
+    password = ''.join(random.choice(character_set) for _ in range(length))
+
+    # Add salt to the password
+    if use_salt:
+        salt = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
+        password = salt + password
+
+    return password
+
+def main():
+    length = int(input("Enter the desired password length: "))
+    use_lowercase = input("Include lowercase letters? (yes/no): ").lower() == "yes"
+    use_uppercase = input("Include uppercase letters? (yes/no): ").lower() == "yes"
+    use_digits = input("Include digits? (yes/no): ").lower() == "yes"
+    use_special_chars = input("Include special characters? (yes/no): ").lower() == "yes"
+    use_salt = input("Use salt? (yes/no): ").lower() == "yes"
+    memorable = input("Generate memorable password? (yes/no): ").lower() == "yes"
+
+    password = generate_password(length, use_lowercase, use_uppercase, use_digits, use_special_chars, use_salt, memorable)
+    print("Generated Password:", password)
+
+if __name__ == "__main__":
+    main()
+
+# This code is contributed by Gaurav Mandall (https://www.linkedin.com/in/gauravmandall/)
