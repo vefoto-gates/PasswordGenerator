@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Generator</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
-    <header>
-        <h1>Password Generator</h1>
-    </header>
-    <main>
-        <div class="password-generator">
-            <label for="password-length">Password Length:</label>
-            <input type="number" id="password-length" min="8" max="16" value="12">
-            <br>
-            <input type="checkbox" id="use-special-chars" checked>
-            <label for="use-special-chars">Use Special Characters</label>
-            <br>
-            <input type="checkbox" id="memorable">
-            <label for="memorable">Generate Memorable Password</label>
-            <br>
-            <button id="generate-btn">Generate Password</button>
-            <br>
+    <div class="grid grid-cols-10 h-screen w-full items-center bg-[#f5f5f5]">
+        <div class="col-start-3 col-end-9 flex flex-col justify-center items-center space-y-6">
+            <h1 class="text-6xl font-bold pb-8">Password Generator</h1>
+            <div class="flex flex-col w-1/6 items-center space-y-2">
+                <label for="password-length">Password Length</label>
+                <input type="number" id="password-length" min="8" max="16" value="12"
+                    class="text-center inline w-full rounded-md border-0 py-1.5 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#ccc] sm:text-sm sm:leading-6">
+            </div>
+            <div>
+                <div class="flex space-x-2">
+                    <input type="checkbox" id="use-special-chars" checked>
+                    <label for="use-special-chars">Use Special Characters</label>
+                </div>
+                <div class="flex space-x-2 ">
+                    <input type="checkbox" id="memorable">
+                    <label for="memorable">Generate Memorable Password</label>
+                </div>
+            </div>
+            <button id="generate-btn"
+                class="text-[#f5f5f5] bg-[#333] transition-all px-4 py-2 hover:text-[#333] hover:bg-transparent rounded-md">Generate
+                Password</button>
             <div id="password-result"></div>
         </div>
-    </main>
-    <script src="script.js"></script>
+    </div>
+    <script src="./script.js"></script>
 </body>
+
 </html>
