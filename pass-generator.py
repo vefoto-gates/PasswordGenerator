@@ -1,28 +1,49 @@
-import random  # Importing the random module
-import string  # Importing the string module
+# <<<<<<< Audit-interface
 
-print(string.printable) # Printing all the printable characters
-char_seq = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&'()*+,-./:;<=>?@[\]^_`{|}~"  # Defining the character sequence
-print(type(char_seq))   # Printing the type of the character sequence
+import random
+import string
 
-print("Enter the required length of the password ranging from 8 to 16: ") # Getting the length of the password from the user
-length = int(input())   # Converting the input to integer
+class PasswordGenerator:
+    def __init__(self):
+        self.char_seq = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
 
-if length >= 8 and length <= 16:  # Checking if the length is in the range
-    password = ''       # Defining the password variable
-    for len in range(length):     # Looping through the length
-        random_char = random.choice(char_seq) # Getting a random character from the character sequence
-        password += random_char   # Adding the random character to the password
-        
-    # print(password)   # Printing the password
-    list_pass = list(password)    # Converting the password to a list
-    random.shuffle(list_pass)     # Shuffling the list
-    final_password = ''.join(list_pass)       # Converting the list to a string
-    print(final_password)         # Printing the final password
-else:
-    print("Enter a suitable range")           # Printing an error message
+    def generate_password(self, length=12, use_special_chars=True, memorable=False):
+        if length < 8 or length > 16:
+            return "Enter a suitable password length (between 8 and 16)."
 
-    from password_generator import \
-        PasswordGenerator  # Importing the PasswordGenerator class from the password_generator module
-    pwo = PasswordGenerator()     # Creating an object of the PasswordGenerator class
-    pwo.generate()                # Calling the generate method of the PasswordGenerator class
+        password = ''.join(random.choice(self.char_seq) for _ in range(length))
+
+        if memorable:
+            vowels = "aeiou"
+            consonants = "".join(set(self.char_seq.lower()) - set(vowels))
+
+            memorable_password = ""
+            for i in range(length):
+                if i % 2 == 0:
+                    memorable_password += random.choice(consonants)
+                else:
+                    memorable_password += random.choice(vowels)
+
+            return memorable_password
+
+        if use_special_chars:
+            password += random.choice(string.punctuation)
+
+        password_list = list(password)
+        random.shuffle(password_list)
+        final_password = ''.join(password_list)
+
+        return final_password
+
+def main():
+    print("Enter the required length of the password ranging from 8 to 16:")
+    length = int(input())
+
+    generator = PasswordGenerator()
+    password = generator.generate_password(length, use_special_chars=True, memorable=True)
+    print("Generated Password:", password)
+
+if __name__ == "__main__":
+    main()
+
+# >>>>>>> main
