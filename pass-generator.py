@@ -1,3 +1,8 @@
+# <<<<<<< main
+# =======
+# # <<<<<<< Audit-interface
+
+# >>>>>>> main
 import random
 import string
 
@@ -43,3 +48,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+# <<<<<<< main
+# =======
+
+# # >>>>>>> main
+# >>>>>>> main
